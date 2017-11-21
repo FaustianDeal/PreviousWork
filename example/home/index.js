@@ -5,6 +5,10 @@ import uiBootstrapName from 'angular-ui-bootstrap';
 import uiRouterName from '@uirouter/angularjs';
 import thisModuleName from '../../src';
 
+import hurricanes from './hurricanes.json';
+
+const hurricaneData = hurricanes;
+
 /**
  * Route requests to the home page
  * @param {*} $stateProvider
@@ -39,6 +43,8 @@ class HomeController {
       this.debug = $log.debug.bind($log, 'HomeController');
       this.debug('ctor');
     }
+    this.timelineData = hurricaneData;
+    this.timelineOptions = {};
   }
 
   /**

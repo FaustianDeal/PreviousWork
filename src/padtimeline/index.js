@@ -18,12 +18,11 @@ class PadtimelineController {
   /**
    * Constructs instances of the PadtimelineController
    * @param {*} $log angular logging service
-   * @param {Leaflet} L leaflet global instance
    * @param {*} $element angular DOM element wrapper
    * @param {*} $filter angular filter service
    * @param {*} leafletData ui-leaflet data access
    */
-  constructor($log, L, $element, $filter, leafletData) {
+  constructor($log, $element, $filter, leafletData) {
     'ngInject';
     // istanbul ignore else
     if (DEBUG_LOGGING) {
@@ -32,6 +31,7 @@ class PadtimelineController {
     } else {
       this.debug = angular.noop;
     }
+    this.leafletData = leafletData;
     this.L = L;
     this.$element = $element;
     this.timelineOptions = angular.merge({}, defaults);
@@ -59,7 +59,7 @@ class PadtimelineController {
       angular.merge(this.timelineOptions, defaults, options || {});
     }
     if (deltas.data) {
-      this.leafletData.getMap().then(map => {
+      this.leafletData.getMap(pmap).then(map => {
         let data = deltas.data.currentValue;
         if (data && data.length) {
           this.enableTimeline(map, data);
@@ -134,7 +134,7 @@ class PadtimelineController {
    * @function $onDestroy
    */
   $onDestroy() {
-    this.leafletData.getMap().then(map => this.disableTimeline(map));
+    this.leafletData.getMap(pmap).then(map => this.disableTimeline(map));
   }
 
   /**
