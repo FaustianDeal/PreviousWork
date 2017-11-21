@@ -1,0 +1,13 @@
+doctype html
+html(ng-app='app', ng-strict-di="true")
+  head
+    title Starter Kit Test Page
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge")
+    meta(name="viewport", content="width=device-width, initial-scale=1")
+  body
+    //- If you're looking that this, you are probably in the wrong place
+    //- look in the home folder to see how components are assigned to 
+    //- these views. navbar folder contains the simple navbar
+    div(ui-view="navbar")
+    div(ui-view="main")

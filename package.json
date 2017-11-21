@@ -1,0 +1,125 @@
+{
+  "name": "@mo/PAD",
+  "version": "0.1.0",
+  "main": "dist/PAD.js",
+  "style": "dist/PAD.css",
+  "directories": {
+    "example": "example"
+  },
+  "files": [
+    "dist",
+    "docs",
+    "src"
+  ],
+  "config": {
+    "@mo/generator-mo": {
+      "es6": true
+    }
+  },
+  "scripts": {
+    "build": "babel-node buildScripts/prodBuild",
+    "build:only": "babel-node buildScripts/prodBuild",
+    "build:dev": "babel-node buildScripts/devBuild",
+    "clean": "rimraf ./dist ./coverage",
+    "lint": "esw --color buildScripts example src",
+    "prebuild": "run-s test lint",
+    "prepublishOnly": "run-s clean test lint build:only",
+    "readme": "babel-node buildScripts/readme",
+    "security-check": "nsp check",
+    "start": "run-p security-check watch:lint watch:test watch:example",
+    "start:build": "run-p security-check watch:lint watch:test watch:build",
+    "test": "karma start",
+    "watch:build": "babel-node buildScripts/watchBuild",
+    "watch:example": "babel-node buildScripts/exampleServer",
+    "watch:lint": "esw --color --watch buildScripts example src",
+    "watch:test": "karma start --no-single-run"
+  },
+  "babel": {
+    "babelrc": false,
+    "presets": [
+      [
+        "env",
+        {
+          "targets": "node"
+        }
+      ]
+    ]
+  },
+  "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@portal.modusoperandi.com:7999/blademodules/PAD.git"
+  },
+  "publishConfig": {
+    "registry": "https://portal.modusoperandi.com/nexus/repository/npm-internal/"
+  },
+  "devDependencies": {
+    "@uirouter/angularjs": "^1.0.10",
+    "angular": "^1.5.0",
+    "angular-mocks": "^1.5.0",
+    "angular-simple-logger": "^0.1.7",
+    "angular-ui-bootstrap": "^2.5.6",
+    "autoprefixer": "^7.1.6",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-istanbul": "^4.1.4",
+    "babel-preset-env": "^1.6.1",
+    "babel-register": "^6.26.0",
+    "bootstrap": "^3.3.7",
+    "chalk": "^2.3.0",
+    "connect-history-api-fallback": "^1.4.0",
+    "css-loader": "^0.28.5",
+    "dmd-clean": "^0.1.1",
+    "eslint": "^4.10.0",
+    "eslint-config-google": "^0.9.1",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-watch": "^3.1.3",
+    "exports-loader": "^0.6.4",
+    "express": "^4.16.2",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "file-loader": "^1.1.5",
+    "font-awesome": "^4.7.0",
+    "html-loader": "^0.5.1",
+    "html-webpack-plugin": "^2.30.1",
+    "imports-loader": "^0.7.1",
+    "jasmine-core": "^2.8.0",
+    "jsdoc-to-markdown": "^3.0.0",
+    "karma": "^1.7.0",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-coverage": "^1.1.1",
+    "karma-jasmine": "^1.1.0",
+    "karma-junit-reporter": "^1.2.0",
+    "karma-webpack": "^2.0.5",
+    "leaflet": "^1.0.3",
+    "leaflet.timeline": "^1.2.0",
+    "less": "^2.7.2",
+    "less-loader": "^4.0.5",
+    "morgan": "^1.8.2",
+    "ng-annotate-loader": "^0.6.1",
+    "npm-run-all": "^4.0.2",
+    "nsp": "^2.7.0",
+    "open": "0.0.5",
+    "optimize-css-assets-webpack-plugin": "^3.1.1",
+    "portfinder": "^1.0.13",
+    "postcss-loader": "^2.0.8",
+    "pug": "^2.0.0-rc.4",
+    "pug-html-loader": "^1.1.5",
+    "pug-loader": "^2.3.0",
+    "rimraf": "^2.6.1",
+    "source-map-loader": "^0.2.3",
+    "style-loader": "^0.19.0",
+    "ui-leaflet": "^1.0.3",
+    "url-loader": "^0.6.2",
+    "webpack": "^3.8.1",
+    "webpack-dev-middleware": "^1.12.0",
+    "webpack-hot-middleware": "^2.20.0"
+  },
+  "dependencies": {},
+  "description": "PAD UI START",
+  "homepage": "https://portal.modusoperandi.com/bitbucket/projects/BLADEMODULES/repos/PAD/browse",
+  "keywords": [
+    "PAD"
+  ],
+  "author": "Charles Dorff"
+}

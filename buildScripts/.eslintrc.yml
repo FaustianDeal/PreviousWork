@@ -1,0 +1,3 @@
+rules:
+  # scripts in this folder run in node and can output to console as needed.
+  no-console: off
