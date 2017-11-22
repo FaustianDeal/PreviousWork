@@ -4,6 +4,11 @@ import template from './template.pug';
 import uiBootstrapName from 'angular-ui-bootstrap';
 import uiRouterName from '@uirouter/angularjs';
 import thisModuleName from '../../src';
+import padTimelineName from '../../src/padtimeline';
+
+import 'leaflet';
+import 'angular-simple-logger';
+import 'ui-leaflet';
 
 import hurricanes from './hurricanes.json';
 
@@ -62,6 +67,56 @@ class HomeController {
     //
     this.timelineData = [hurricaneData];
     this.timelineOptions = {};
+    this.maxbounds = {
+      northEast: {
+        lat: 90,
+        lng: -180,
+      },
+      southWest: {
+        lat: -90,
+        lng: 180,
+      },
+    };
+    this.markers = {};
+    this.layers = {
+      baselayers: {
+        worldImagery: {
+          name: 'World Imagery',
+          url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+          type: 'xyz',
+          layerOptions: {
+            minZoom: 2,
+            maxZoom: 16,
+            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+            noWrap: true,
+          },
+        },
+        osm: {
+          name: 'Open Street Map',
+          url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+          type: 'xyz',
+          layerOptions: {
+            minZoom: 2,
+            maxZoom: 19,
+            attribution: '&copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors',
+            noWrap: true,
+          },
+        },
+        stamenTerrain: {
+          name: 'Stamen Terrain',
+          url: 'https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.png',
+          type: 'xyz',
+          layerOptions: {
+            minZoom: 2,
+            maxZoom: 13,
+            ext: 'png',
+            subdomains: 'abcd',
+            attribution: 'Map tiles by <a href=\"http://stamen.com\">Stamen Design</a>, <a href=\"http://creativecommons.org/licenses/by/3.0\">CC BY 3.0</a> &mdash; Map data &copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a>',
+            noWrap: true,
+          },
+        },
+      },
+    };
   }
 
   /**
@@ -105,6 +160,9 @@ class HomeController {
 const name = 'app.home';
 angular
   .module(name, [
+    'nemLogging',
+    'ui-leaflet',
+    padTimelineName,
     uiRouterName,
     uiBootstrapName,
     thisModuleName,
