@@ -1,8 +1,23 @@
+//
+// Charles, you really have to get a handle on how import / export work.
+// Don't rely on global variables because most of the time they won't be there.
+// You can't use leaflet (L) in this file without importing it first!
+//
+// Also remember there are 2 module systems.  import/export handle the build
+// and can be used by code, but by themselves don't do anything with angular.
+
+//
+// less files should be imported first.  If that doesn't happen it's possible
+// that the build system will compile the .css in the wrong order, and order
+// matters.
+//
+import './index.less';
 import angular from 'angular';
 import template from './template.pug';
 
+// you can't add timeline to leaflet (L) until leaflet has been loaded
+import L from 'leaflet';
 import 'leaflet.timeline';
-import './index.less';
 
 //
 // set default date format
@@ -59,12 +74,24 @@ class PadtimelineController {
       angular.merge(this.timelineOptions, defaults, options || {});
     }
     if (deltas.data) {
+      let data = deltas.data.currentValue;
+      // istanbul ignore else
+      if (DEBUG_LOGGING) {
+        this.debug('$onChanges', 'data', data);
+      }
+
       this.leafletData.getMap(pmap).then(map => {
-        let data = deltas.data.currentValue;
+        if (DEBUG_LOGGING) {
+          this.debug('map', map);
+        }
         if (data && data.length) {
           this.enableTimeline(map, data);
         } else {
           this.disableTimeline(map);
+        }
+      }).catch(reason => {
+        if (DEBUG_LOGGING) {
+          this.debug('map', reason);
         }
       });
     }

@@ -2,9 +2,11 @@ import './index.less';
 import angular from 'angular';
 import template from './template.pug';
 
+import padTimelineName from '../padtimeline';
+
 import 'leaflet';
-import 'ui-leaflet';
 import 'angular-simple-logger';
+import 'ui-leaflet';
 
 /**
  * @class PadMapController
@@ -127,8 +129,11 @@ class PadMapController {
 //
 const name = 'PAD.pad-map';
 angular
-  .module(name, ['nemLogging',
-    'ui-leaflet'])
+  .module(name, [
+    'nemLogging',
+    'ui-leaflet',
+    padTimelineName,
+  ])
   .component('padMap', {
     template: template,
     controller: PadMapController,

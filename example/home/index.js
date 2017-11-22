@@ -9,6 +9,19 @@ import hurricanes from './hurricanes.json';
 
 const hurricaneData = hurricanes;
 
+//
+// timeline is looking for start/end times. your data doesn't have that
+// it has ISO_time which can be a start.  There is no end time so you have to
+// create one. Hurricane reports are typically 3 hours apart so
+//
+hurricaneData.features.map(f => {
+  f.properties.start = new Date(f.properties.ISO_time);
+  f.properties.end = new Date(f.properties.start.getTime() + 10800000);
+
+  f.properties.popupContent = f.properties.Name;
+  return f;
+});
+
 /**
  * Route requests to the home page
  * @param {*} $stateProvider
@@ -43,7 +56,11 @@ class HomeController {
       this.debug = $log.debug.bind($log, 'HomeController');
       this.debug('ctor');
     }
-    this.timelineData = hurricaneData;
+
+    //
+    // timline expects an array not a single item
+    //
+    this.timelineData = [hurricaneData];
     this.timelineOptions = {};
   }
 

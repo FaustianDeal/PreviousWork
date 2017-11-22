@@ -6,12 +6,17 @@
           .panel-title Test Area 1
         .panel-body.tall
           pad-map
-          padtimeline (
-            padTimelineData = "$ctrl.timelineData",
-            padTimelineOptions = "$ctrl.timelineOptions")          
+          //- spaces are significant. No space between tag and (attributes)
+          //- padTimelineData in angular translates to pad-timeline-data in HTML
+          padtimeline(
+            pad-timeline-data="$ctrl.timelineData",
+            pad-timeline-options="$ctrl.timelineOptions")
     .col-xs-6.panel-group
       .panel.panel-primary
         .panel-heading
           .panel-title Test Area 2
         .panel-body
-          p Add your components here
+          //- If you're going to insist on ui-leaflet, try this instead of
+          //- repeating the mistakes we made with blade-map
+          leaflet#test
+            try-this-instead(timeline-data="$ctrl.timelineData")

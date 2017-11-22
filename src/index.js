@@ -1,6 +1,11 @@
 import './index.less';
 import angular from 'angular';
 
+// include images not referenced in leaflet css...
+// these imports are necessary to copy the files to output folder
+import '!!file-loader?name=images/[name].[ext]!../node_modules/leaflet/dist/images/marker-shadow.png';
+import '!!file-loader?name=images/[name].[ext]!../node_modules/leaflet/dist/images/marker-icon-2x.png';
+
 /**
  * Import all sub-modules of this module that export a string or name
  * @ignore
