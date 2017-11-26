@@ -4,8 +4,7 @@
       .panel.panel-primary
         .panel-heading
           .panel-title Test Area 1
-        .panel-body.tall
-          <datetime-range start="start" end="end"></datetime-range>
+        .panel-body.tall          
           leaflet#pmap(width='100%', height='480px', layers = '$ctrl.layers', maxbounds = '$ctrl.maxbounds', markers = '$ctrl.markers')
             padtimeline(
               timeline-data="$ctrl.timelineData")
@@ -14,3 +13,4 @@
         .panel-heading
           .panel-title Test Area 2
         .panel-body
+          datetime-range(start='$ctrl.startTime', end='$ctrl.endTime', presets='$ctrl.presetsTime', on-change='changed()', on-change-start='changedStart()', on-change-end='changedEnd()', on-close='closed()') This should be date-time-range

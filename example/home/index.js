@@ -9,7 +9,7 @@ import padTimelineName from '../../src/padtimeline';
 import 'leaflet';
 import 'angular-simple-logger';
 import 'ui-leaflet';
-import 'moment';
+import moment from 'moment';
 import 'angular-datetime-range';
 
 import hurricanes from './hurricanes.json';
@@ -63,9 +63,29 @@ class HomeController {
       this.debug = $log.debug.bind($log, 'HomeController');
       this.debug('ctor');
     }
-    this.searchText = '';
     //
-    // timline expects an array not a single item
+    // Date Search setup
+    //
+    this.startTime = moment();
+    this.endTime = moment().add(1, 'days').add(1, 'hours');
+
+    this.presetsTime = [
+      {
+        'name': 'This Week',
+        'start': moment().startOf('week').startOf('day'),
+        'end': moment().endOf('week').endOf('day'),
+      }, {
+        'name': 'This Month',
+        'start': moment().startOf('month').startOf('day'),
+        'end': moment().endOf('month').endOf('day'),
+      }, {
+        'name': 'This Year',
+        'start': moment().startOf('year').startOf('day'),
+        'end': moment().endOf('year').endOf('day'),
+      },
+    ];
+    //
+    // timeline expects an array not a single item
     //
     this.timelineData = [hurricaneData];
     this.timelineOptions = {};
@@ -182,7 +202,6 @@ angular
     'nemLogging',
     'ui-leaflet',
     'g1b.datetime-range',
-    'moment',
     padTimelineName,
     uiRouterName,
     uiBootstrapName,

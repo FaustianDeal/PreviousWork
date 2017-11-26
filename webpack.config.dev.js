@@ -12,11 +12,15 @@ export default function getWebpackConfig() {
   const config = {
     devtool: 'inline-source-map',
     entry: {
-      middleware: 'webpack-hot-middleware/client',
-      [moduleName]: './example/index',
+      vendor: './example/vendor',
+      [moduleName]: ['webpack-hot-middleware/client?reload=true', './example/index'],
     },
     module: {
       rules: [
+        {
+          test: /angular-datetime-range/,
+          loader: 'imports-loader?moment',
+        },
         {
           test: /\.js$/,
           enforce: 'pre',
@@ -24,6 +28,7 @@ export default function getWebpackConfig() {
           exclude: [
             // modules with bad sourcemaps?
             path.resolve(__dirname, 'node_modules', '@uirouter'),
+            path.resolve(__dirname, 'node_modules', 'leaflet.timeline'),
           ],
         },
         {
@@ -90,6 +95,10 @@ export default function getWebpackConfig() {
       new webpack.DefinePlugin({
         PACKAGE_MODULE_NAME: JSON.stringify(moduleName),
         DEBUG_LOGGING: true,
+      }),
+      // Separte out some libraries for easier debugging in example mode
+      new webpack.optimize.CommonsChunkPlugin({
+        name: 'vendor',
       }),
       // Create HTML file that includes reference to bundled JS
       new HtmlWebpackPlugin({
