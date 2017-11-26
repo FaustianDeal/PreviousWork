@@ -5,6 +5,7 @@
         .panel-heading
           .panel-title Test Area 1
         .panel-body.tall
+          <datetime-range start="start" end="end"></datetime-range>
           leaflet#pmap(width='100%', height='480px', layers = '$ctrl.layers', maxbounds = '$ctrl.maxbounds', markers = '$ctrl.markers')
             padtimeline(
               timeline-data="$ctrl.timelineData")

@@ -9,6 +9,8 @@ import padTimelineName from '../../src/padtimeline';
 import 'leaflet';
 import 'angular-simple-logger';
 import 'ui-leaflet';
+import 'moment';
+import 'angular-datetime-range';
 
 import hurricanes from './hurricanes.json';
 
@@ -61,7 +63,7 @@ class HomeController {
       this.debug = $log.debug.bind($log, 'HomeController');
       this.debug('ctor');
     }
-
+    this.searchText = '';
     //
     // timline expects an array not a single item
     //
@@ -120,6 +122,23 @@ class HomeController {
   }
 
   /**
+   * search the timeline
+   * @function search
+   * @param {*} string the search string to pass
+   */
+  search(string) {
+  }
+
+  /**
+   * clear the search
+   * @function clear
+   */
+  clear() {
+    this.searchText = '';
+    search();
+  }
+
+  /**
    *  @private
    *  @param {*} deltas angular change instance
    */
@@ -162,6 +181,8 @@ angular
   .module(name, [
     'nemLogging',
     'ui-leaflet',
+    'g1b.datetime-range',
+    'moment',
     padTimelineName,
     uiRouterName,
     uiBootstrapName,
