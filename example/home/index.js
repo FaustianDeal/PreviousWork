@@ -149,7 +149,7 @@ class HomeController {
    */
   changedTimelineStart() {
     let options = {
-      start: this.startTime,
+      start: this.startTime._d,
     };
     this.timelineOptions = angular.merge({}, this.timelineOptions, options );
     if (DEBUG_LOGGING) {
@@ -164,7 +164,7 @@ class HomeController {
    */
   changedTimelineEnd() {
     let options = {
-      end: this.endTime,
+      end: this.endTime._d,
     };
     this.timelineOptions = angular.merge({}, this.timelineOptions, options);
     if (DEBUG_LOGGING) {
