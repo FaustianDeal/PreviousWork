@@ -1,15 +1,9 @@
-import angular from 'angular';
-import template from './template.pug';
-
-import 'leaflet.timeline';
 import './index.less';
+import angular from 'angular';
 
-//
-// set default date format
-//
-const defaults = {
-  format: 'EEE MMM dd yyyy',
-};
+import L from 'leaflet';
+import 'leaflet.timeline';
+
 
 /**
  * @class PadtimelineController
@@ -18,11 +12,10 @@ class PadtimelineController {
   /**
    * Constructs instances of the PadtimelineController
    * @param {*} $log angular logging service
-   * @param {*} $element angular DOM element wrapper
    * @param {*} $filter angular filter service
-   * @param {*} leafletData ui-leaflet data access
+   * @param {*} $element angular element service
    */
-  constructor($log, $element, $filter, leafletData) {
+  constructor($log, $filter, $element) {
     'ngInject';
     // istanbul ignore else
     if (DEBUG_LOGGING) {
@@ -31,13 +24,10 @@ class PadtimelineController {
     } else {
       this.debug = angular.noop;
     }
-    this.leafletData = leafletData;
-    this.L = L;
     this.$element = $element;
-    this.timelineOptions = angular.merge({}, defaults);
     this.formatter = $filter('date');
     this.slider = L.timelineSliderControl({
-      formatOutput: date => this.formatter(date, this.timelineOptions.format),
+      formatOutput: date => this.formatter(date, 'EEE MMM dd yyyy'),
       // don't allow control to bind keyboard events
       enableKeyboardControls: false,
       position: 'bottomleft',
@@ -45,40 +35,21 @@ class PadtimelineController {
   }
 
   /**
-   * Called by angular each time a one-way (< or @) binding changes
+   * Called by angular when bindings change
    * @private
-   * @param {*} deltas angular change instance
+   * @param {*} deltas
    */
   $onChanges(deltas) {
-    // istanbul ignore else
-    if (DEBUG_LOGGING) {
-      this.debug('$onChanges', ...Object.keys(deltas));
-    }
-    if (deltas.options) {
-      let options = deltas.options.currentValue;
-      angular.merge(this.timelineOptions, defaults, options || {});
-    }
     if (deltas.data) {
-      this.leafletData.getMap(pmap).then(map => {
-        let data = deltas.data.currentValue;
+      let data = deltas.data.currentValue;
+      this.leaflet.getMap().then(map => {
+        this.debug('map', map);
         if (data && data.length) {
           this.enableTimeline(map, data);
         } else {
-          this.disableTimeline(map);
+          this.disableTimeline(map, data);
         }
       });
-    }
-  }
-
-  /**
-   * Bind feature attributes to content
-   * @function bindFeature
-   * @param {*} feature feature to bind
-   * @param {L.Layer} layer leaflet layer to bind to
-   */
-  bindFeature(feature, layer) {
-    if (feature.properties && feature.properties.popupContent) {
-      layer.bindPopup(feature.properties.popupContent);
     }
   }
 
@@ -118,7 +89,7 @@ class PadtimelineController {
     //
     map.addControl(this.slider);
     data.map(featureCollection => {
-      const timeline = this.L.timeline(featureCollection, {
+      const timeline = L.timeline(featureCollection, {
         onEachFeature: this.bindFeature,
       });
       map.addLayer(timeline);
@@ -129,45 +100,25 @@ class PadtimelineController {
   }
 
   /**
+   * Bind feature attributes to content
+   * @function bindFeature
+   * @param {*} feature feature to bind
+   * @param {L.Layer} layer leaflet layer to bind to
+   */
+  bindFeature(feature, layer) {
+    if (feature.properties && feature.properties.popupContent) {
+      layer.bindPopup(feature.properties.popupContent);
+    }
+  }
+
+
+  /**
    * Clean up all resources used by timeline
    * @private
    * @function $onDestroy
    */
   $onDestroy() {
-    this.leafletData.getMap(pmap).then(map => this.disableTimeline(map));
-  }
-
-  /**
-   * Called by angular to complete initialization of component
-   * @private
-   */
-  $onInit() {
-    // istanbul ignore else
-    if (DEBUG_LOGGING) {
-      this.debug('$onInit');
-    }
-  }
-
-  /**
-   * Called by angluar after component DOM has been rendered
-   * @private
-   */
-  $postLink() {
-    // istanbul ignore else
-    if (DEBUG_LOGGING) {
-      this.debug('$postLink');
-    }
-  }
-
-  /**
-   * Called by angular to clean up component resources
-   * @private
-   */
-  $onDestroy() {
-    // istanbul ignore else
-    if (DEBUG_LOGGING) {
-      this.debug('$onDestroy');
-    }
+    this.leaflet.getMap(pmap).then(map => this.disableTimeline(map));
   }
 }
 
@@ -178,11 +129,13 @@ const name = 'PAD.padtimeline';
 angular
   .module(name, [])
   .component('padtimeline', {
-    template: template,
+    // template: template,
     controller: PadtimelineController,
+    require: {
+      leaflet: '^leaflet',
+    },
     bindings: {
-      data: '<padTimelineData',
-      options: '<padTimelineOptions',
+      data: '<timelineData',
     },
   });
 

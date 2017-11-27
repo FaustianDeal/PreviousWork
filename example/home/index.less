@@ -1,5 +1,6 @@
 @body-height: calc(~"100vh - 44px");
-
+@import '~leaflet/dist/leaflet.css';
+@import '~angular-datetime-range/dist/datetime-range.min.css';
 home {
   background-color: slategrey;
   .panel-group {
@@ -12,5 +13,65 @@ home {
     height: calc(~"100vh - 88px");
     min-height: calc(~"100vh - 88px");
     margin: 0;
+
+    #pmap {
+      min-height: 400px;
+      .leaflet-control {
+        border-color: white;
+        &.leaflet-timeline-control {
+          min-width: 320px;
+          margin-bottom: 16px;
+          padding-left: 10px;
+          padding-right: 10px;
+          .sldr-ctrl-container {
+            width: 100%;
+          }
+
+          .range-thumb() {
+            box-shadow: 1px 1px 1px #000, 0px 0px 1px #0d0d0d;
+            border: 1px solid #222;
+            height: 26px;
+            width: 10px;
+            border-radius: 3px;
+            background: #eee;
+            cursor: pointer;
+          }
+
+          .range-track() {
+            width: 100%;
+            height: 6px;
+            cursor: pointer;
+            box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+            background: #3071a9;
+            border-radius: 1.3px;
+            border: 0.2px solid #010101;
+          }
+
+          input[type=range] {
+            -webkit-appearance: none;
+            width: 100% !important;
+            background: transparent;
+
+            &::-webkit-slider-thumb {
+              -webkit-appearance: none;
+              .range-thumb();
+              margin-top: -10px;
+            }
+            &::-webkit-slider-runnable-track {
+              .range-track();
+            }
+            &::-moz-range-thumb {
+              .range-thumb();
+            }
+            &::-moz-range-track {
+              .range-track();
+            }
+            &::-ms-thumb {
+              .range-thumb();
+            }
+          }
+        }
+      }
+    }
   }
 }

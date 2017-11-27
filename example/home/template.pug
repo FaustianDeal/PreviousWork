@@ -3,15 +3,14 @@
     .col-xs-6.panel-group
       .panel.panel-primary
         .panel-heading
-          .panel-title Test Area 1
+          .panel-title PAD UI
         .panel-body.tall
-          pad-map
-          padtimeline (
-            padTimelineData = "$ctrl.timelineData",
-            padTimelineOptions = "$ctrl.timelineOptions")          
+          datetime-range(start='$ctrl.startTime', end='$ctrl.endTime', presets='$ctrl.presetsTime', on-change='changed()', on-change-start='changedStart()', on-change-end='changedEnd()', on-close='closed()') This should be date-time-range          
+          leaflet#pmap(width='100%', height='480px', layers = '$ctrl.layers', maxbounds = '$ctrl.maxbounds', markers = '$ctrl.markers')
+            padtimeline(
+              timeline-data="$ctrl.timelineData")
     .col-xs-6.panel-group
       .panel.panel-primary
         .panel-heading
           .panel-title Test Area 2
         .panel-body
-          p Add your components here
