@@ -5,12 +5,11 @@ PAD UI START
 
 ## Checkout & Build
 
-```bash
-git clone ssh://git@portal.modusoperandi.com:7999/blademodules/PAD.git
-npm install
-npm run build
-npm test
-```
+    bash
+    git clone ssh://git@portal.modusoperandi.com:7999/blademodules/PAD.git
+    npm install
+    npm run build
+    npm test
 
 ## To Run 
 
