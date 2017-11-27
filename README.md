@@ -12,5 +12,9 @@ npm run build
 npm test
 ```
 
+## To Run 
+
+    npm -s start
+
 ## API
 
