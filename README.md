@@ -12,5 +12,8 @@ npm run build
 npm test
 ```
 
-## API
+## TO RUN
+
+```npm run watch:example
+```
 
