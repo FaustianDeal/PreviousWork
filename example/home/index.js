@@ -142,20 +142,31 @@ class HomeController {
   }
 
   /**
-   * search the timeline
-   * @function search
-   * @param {*} string the search string to pass
+   * changed the start date of the timeline search
+   * @private
+   * @function changedTimelineStart
    */
-  search(string) {
+  changedTimelineStart() {
+    this.timelineOptions = {
+      start: this.startTime,
+    };
+    if (DEBUG_LOGGING) {
+      this.debug('$ctrl.startTime', this.startTime);
+    }
   }
 
   /**
-   * clear the search
-   * @function clear
+   * changed the end date of the timeline search
+   * @private
+   * @function changedTimelineEnd
    */
-  clear() {
-    this.searchText = '';
-    search();
+  changedTimelineEnd() {
+    this.timelineOptions = {
+      end: this.endTime,
+    };
+    if (DEBUG_LOGGING) {
+      this.debug('$ctrl.endTime', this.endTime);
+    }
   }
 
   /**

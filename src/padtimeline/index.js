@@ -40,6 +40,9 @@ class PadtimelineController {
    * @param {*} deltas
    */
   $onChanges(deltas) {
+    if (deltas.options) {
+
+    }
     if (deltas.data) {
       let data = deltas.data.currentValue;
       this.leaflet.getMap().then(map => {
@@ -136,6 +139,7 @@ angular
     },
     bindings: {
       data: '<timelineData',
+      options: '<timelineOptions',
     },
   });
 
