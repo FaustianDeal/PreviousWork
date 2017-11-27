@@ -151,7 +151,7 @@ class HomeController {
     let options = {
       start: this.startTime,
     };
-    this.timelineOptions = angular.merge(this.timelineOptions, options );
+    this.timelineOptions = angular.merge({}, this.timelineOptions, options );
     if (DEBUG_LOGGING) {
       this.debug('timelineOptions', this.timelineOptions);
     }
@@ -166,7 +166,7 @@ class HomeController {
     let options = {
       end: this.endTime,
     };
-    this.timelineOptions = angular.merge(this.timelineOptions, options);
+    this.timelineOptions = angular.merge({}, this.timelineOptions, options);
     if (DEBUG_LOGGING) {
       this.debug('timelineOptions', this.timelineOptions);
     }
