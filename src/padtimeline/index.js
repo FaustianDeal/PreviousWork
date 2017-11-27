@@ -40,17 +40,30 @@ class PadtimelineController {
    * @param {*} deltas
    */
   $onChanges(deltas) {
+    let options = {
+      formatOutput: date => this.formatter(date, 'EEE MMM dd yyyy'),
+      // don't allow control to bind keyboard events
+      enableKeyboardControls: false,
+      position: 'bottomleft',
+    };
     if (deltas.options) {
-
+      options = {
+        formatOutput: date => this.formatter(date, 'EEE MMM dd yyyy'),
+        // don't allow control to bind keyboard events
+        enableKeyboardControls: false,
+        position: 'bottomleft',
+        start: deltas.options.start,
+        end: deltas.options.end,
+      };
     }
     if (deltas.data) {
       let data = deltas.data.currentValue;
       this.leaflet.getMap().then(map => {
         this.debug('map', map);
         if (data && data.length) {
-          this.enableTimeline(map, data);
+          this.enableTimeline(map, data, options);
         } else {
-          this.disableTimeline(map, data);
+          this.disableTimeline(map);
         }
       });
     }
@@ -83,13 +96,15 @@ class PadtimelineController {
    * @function enableTimeline
    * @param {L.Map} map leaflet map
    * @param {*[]} data
+   * @param {*} options
    */
-  enableTimeline(map, data) {
+  enableTimeline(map, data, options) {
     this.disableTimeline(map);
-    this.debug('enableTimeline', data.length);
+    this.debug('enableTimeline', options);
     //
     // slider must be added to map before attaching any data
     //
+    this.slider = L.timelineSliderControl(options);
     map.addControl(this.slider);
     data.map(featureCollection => {
       const timeline = L.timeline(featureCollection, {

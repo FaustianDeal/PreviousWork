@@ -5,7 +5,7 @@
         .panel-heading
           .panel-title PAD UI
         .panel-body.tall
-          datetime-range#pdatetimerange(start='$ctrl.startTime', end='$ctrl.endTime', presets='$ctrl.presetsTime', on-change='changed()', on-change-start='$ctrl.changedTimelineStart()', on-change-end='$ctrl.changedTimelineEnd()', on-close='closed()') This should be date-time-range        
+          datetime-range.over-map(start='$ctrl.startTime', end='$ctrl.endTime', presets='$ctrl.presetsTime', on-change='changed()', on-change-start='$ctrl.changedTimelineStart()', on-change-end='$ctrl.changedTimelineEnd()', on-close='closed()') This should be date-time-range        
           leaflet#pmap(width='100%', height='480px', layers = '$ctrl.layers', maxbounds = '$ctrl.maxbounds', markers = '$ctrl.markers')
             padtimeline(
               timeline-data="$ctrl.timelineData", timeline-options="$ctrl.timelineOptions")  

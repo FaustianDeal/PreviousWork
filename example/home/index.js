@@ -147,11 +147,12 @@ class HomeController {
    * @function changedTimelineStart
    */
   changedTimelineStart() {
-    this.timelineOptions = {
+    let options = {
       start: this.startTime,
     };
+    this.timelineOptions = angular.merge(this.timelineOptions, options );
     if (DEBUG_LOGGING) {
-      this.debug('$ctrl.startTime', this.startTime);
+      this.debug('timelineOptions', this.timelineOptions);
     }
   }
 
@@ -161,11 +162,12 @@ class HomeController {
    * @function changedTimelineEnd
    */
   changedTimelineEnd() {
-    this.timelineOptions = {
+    let options = {
       end: this.endTime,
     };
+    this.timelineOptions = angular.merge(this.timelineOptions, options);
     if (DEBUG_LOGGING) {
-      this.debug('$ctrl.endTime', this.endTime);
+      this.debug('timelineOptions', this.timelineOptions);
     }
   }
 
