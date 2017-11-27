@@ -87,7 +87,8 @@ class HomeController {
     //
     // timeline expects an array not a single item
     //
-    this.timelineData = [hurricaneData];
+    // this.timelineData = [hurricaneData];
+    this.timelineData = [];
     this.timelineOptions = {};
     this.maxbounds = {
       northEast: {
@@ -169,6 +170,7 @@ class HomeController {
     if (DEBUG_LOGGING) {
       this.debug('timelineOptions', this.timelineOptions);
     }
+    this.timelineData = [hurricaneData];
   }
 
   /**

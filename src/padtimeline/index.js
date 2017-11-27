@@ -26,12 +26,7 @@ class PadtimelineController {
     }
     this.$element = $element;
     this.formatter = $filter('date');
-    this.slider = L.timelineSliderControl({
-      formatOutput: date => this.formatter(date, 'EEE MMM dd yyyy'),
-      // don't allow control to bind keyboard events
-      enableKeyboardControls: false,
-      position: 'bottomleft',
-    });
+    this.slider = null;
   }
 
   /**
@@ -40,6 +35,7 @@ class PadtimelineController {
    * @param {*} deltas
    */
   $onChanges(deltas) {
+    this.debug('$onChanges', ...Object.keys(deltas));
     let options = {
       formatOutput: date => this.formatter(date, 'EEE MMM dd yyyy'),
       // don't allow control to bind keyboard events
@@ -52,8 +48,8 @@ class PadtimelineController {
         // don't allow control to bind keyboard events
         enableKeyboardControls: false,
         position: 'bottomleft',
-        start: deltas.options.start,
-        end: deltas.options.end,
+        start: deltas.options.currentValue.start,
+        end: deltas.options.currentValue.end,
       };
     }
     if (deltas.data) {
@@ -63,7 +59,9 @@ class PadtimelineController {
         if (data && data.length) {
           this.enableTimeline(map, data, options);
         } else {
-          this.disableTimeline(map);
+          if (this.slider) {
+            this.disableTimeline(map);
+          }
         }
       });
     }
@@ -99,7 +97,9 @@ class PadtimelineController {
    * @param {*} options
    */
   enableTimeline(map, data, options) {
-    this.disableTimeline(map);
+    if (this.slider) {
+      this.disableTimeline(map);
+    }
     this.debug('enableTimeline', options);
     //
     // slider must be added to map before attaching any data
