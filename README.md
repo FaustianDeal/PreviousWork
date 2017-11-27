@@ -14,6 +14,5 @@ npm test
 
 ## TO RUN
 
-```npm run watch:example
-```
+npm run watch:example
 
