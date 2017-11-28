@@ -12,7 +12,7 @@ import 'ui-leaflet';
 import moment from 'moment';
 import 'angular-datetime-range';
 
-import hurricanes from './hurricanes.json';
+import hurricanes from './hurricanes.1.json';
 
 const hurricaneData = hurricanes;
 let mostRecentDate = 0;
@@ -76,8 +76,14 @@ class HomeController {
     //
     this.startTime = moment(oldestDate);
     this.endTime = moment(mostRecentDate);
-
+    this.minDate = moment(oldestDate);
+    this.maxDate = moment(mostRecentDate);
     this.presetsTime = [
+      {
+        'name': 'Most Recent Day',
+        'start': this.maxDate.startOf('day'),
+        'end': this.maxDate.endOf('day'),
+      },
       {
         'name': 'Last Hour',
         'start': moment().subtract(1, 'hour'),
@@ -95,8 +101,8 @@ class HomeController {
     //
     // timeline expects an array not a single item
     //
-    // this.timelineData = [hurricaneData];
-    this.timelineData = [];
+    this.timelineData = [hurricaneData];
+    // this.timelineData = [];
     this.timelineOptions = {};
     this.maxbounds = {
       northEast: {
@@ -161,7 +167,7 @@ class HomeController {
     };
     this.timelineOptions = angular.merge({}, this.timelineOptions, options );
     if (DEBUG_LOGGING) {
-      this.debug('timelineOptions', this.timelineOptions);
+      this.debug('TimelineStartChanged', this.timelineOptions);
     }
   }
 
@@ -176,9 +182,12 @@ class HomeController {
     };
     this.timelineOptions = angular.merge({}, this.timelineOptions, options);
     if (DEBUG_LOGGING) {
-      this.debug('timelineOptions', this.timelineOptions);
+      this.debug('TimelineEndChanged', this.timelineOptions);
     }
-    this.timelineData = [hurricaneData];
+    if (this.endTime._d <= mostRecentDate._i) {
+      this.debug('Data Sent');
+      this.timelineData = [hurricaneData];
+    }
   }
 
   /**
