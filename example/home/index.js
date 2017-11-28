@@ -15,6 +15,8 @@ import 'angular-datetime-range';
 import hurricanes from './hurricanes.json';
 
 const hurricaneData = hurricanes;
+let mostRecentDate = 0;
+let oldestDate = moment();
 
 //
 // timeline is looking for start/end times. your data doesn't have that
@@ -24,7 +26,13 @@ const hurricaneData = hurricanes;
 hurricaneData.features.map(f => {
   f.properties.start = new Date(f.properties.ISO_time);
   f.properties.end = new Date(f.properties.start.getTime() + 10800000);
-
+  let dateToExamine = moment(f.properties.start);
+  if (dateToExamine < oldestDate) {
+    oldestDate = f.properties.start;
+  }
+  if (dateToExamine > mostRecentDate) {
+    mostRecentDate = dateToExamine;
+  }
   f.properties.popupContent = f.properties.Name;
   return f;
 });
@@ -66,22 +74,22 @@ class HomeController {
     //
     // Date Search setup
     //
-    this.startTime = moment();
-    this.endTime = moment().add(1, 'days').add(1, 'hours');
+    this.startTime = moment(oldestDate);
+    this.endTime = moment(mostRecentDate);
 
     this.presetsTime = [
       {
+        'name': 'Last Hour',
+        'start': moment().subtract(1, 'hour'),
+        'end': moment(),
+      }, {
+        'name': 'Today',
+        'start': moment().startOf('day'),
+        'end': moment().endOf('day'),
+      }, {
         'name': 'This Week',
         'start': moment().startOf('week').startOf('day'),
         'end': moment().endOf('week').endOf('day'),
-      }, {
-        'name': 'This Month',
-        'start': moment().startOf('month').startOf('day'),
-        'end': moment().endOf('month').endOf('day'),
-      }, {
-        'name': 'This Year',
-        'start': moment().startOf('year').startOf('day'),
-        'end': moment().endOf('year').endOf('day'),
       },
     ];
     //
